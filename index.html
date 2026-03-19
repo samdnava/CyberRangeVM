@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CR-Ubuntu | System Status</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0e1621; color: #ffffff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: #17212b; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-top: 5px solid #0088cc; text-align: center; }
+        h1 { margin-top: 0; color: #5eb5f7; }
+        .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; text-align: left; }
+        .item { padding: 10px; background: #242f3d; border-radius: 8px; font-size: 0.9rem; }
+        .secure { color: #4cd964; font-weight: bold; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>Server Status: <span class="secure">SECURED</span></h1>
+    <p>Incident Response and Hardening Complete</p>
+    <div class="status-grid">
+        <div class="item">Firewall: <span class="secure">UFW ACTIVE</span></div>
+        <div class="item">IDS: <span class="secure">AIDE LOADED</span></div>
+        <div class="item">Auth: <span class="secure">PAM VERIFIED</span></div>
+        <div class="item">Backdoors: <span class="secure">PURGED</span></div>
+    </div>
+    <p style="font-size: 0.7rem; margin-top: 20px; color: #6c7883;">Node: CR-Ubuntu | Admin: sec_admin</p>
+</div>
+</body>
+</html>
