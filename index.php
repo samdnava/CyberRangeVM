@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+if(!isset($_SESSION['last_login'])) {
+    $_SESSION['last_login'] = date('Y-m-d H:i:s');
+}
+
 // Our "Database" of users
 $users = [
     'admin_boss' => ['pw' => 'SuperSecure123', 'role' => 'admin', 'msg' => 'Welcome back, Commander.'],
@@ -63,7 +67,7 @@ if (isset($_GET['logout'])) {
                     <p>🚀 [ NUKE PROMPT ] - Ready</p>
                     <p>🛡️ [ HARDENING ] - 100% Complete</p>
                     <p><i>"The board is impressed. Mostly."</i></p>
-
+                    <p>🕒 Last Secure Session: <?php echo $_SESSION['last_login']; ?></p>
                 <?php elseif ($_SESSION['role'] == 'alumni'): ?>
                     <h3>Alumni Archive Access</h3>
                     <p>📜 Records: [UNMODIFIED]</p>
