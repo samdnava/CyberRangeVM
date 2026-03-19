@@ -3,20 +3,19 @@ session_start();
 if(!isset($_SESSION['last_login'])) { $_SESSION['last_login'] = date('Y-m-d H:i:s'); }
 
 // Passwords are now stored as BCRYPT hashes. 
-// Even if you read this file, you can't see the real passwords.
 $users = [
     'admin_boss' => [
-        'pw' => '$2y$10$mC3Bv8.5p.Xv8M1/f5/6u.Xv8M1/f5/6u.Xv8M1/f5/6u.Xv8M1/f5/6u.', // SuperSecure123
+        'pw' => '$2a$10$D1PPZIM6L.OoE2sG5U.ZLeLze.cwu5vW3MLbVerrW0rbRU8c/1aZq',
         'role' => 'admin', 
         'msg' => 'Welcome back, Commander.'
     ],
     'intern_greg' => [
-        'pw' => '$2y$10$S9S9S9S9S9S9S9S9S9S9S9u6u6u6u6u6u6u6u6u6u6u6u6u6u6u6u6', // dont_fire_me
+        'pw' => '$2a$10$.EiDmbeFfpNZwiZyvGqsAeSDUZdeQdmaAp/16jvt4QDtJ6BdythU2',
         'role' => 'low-level', 
         'msg' => 'Greg, did you finish that spreadsheet?'
     ],
     'shadow_board' => [
-        'pw' => '$2y$10$A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A', // OldGuard2026
+        'pw' => '$2a$10$3c/MKGSZo1uhMQ1FhysrnOynUnRboOhv2G6xvtQYI11z38wyvU2Xy',
         'role' => 'alumni', 
         'msg' => 'Welcome, Shadow. The tradition continues.'
     ]
