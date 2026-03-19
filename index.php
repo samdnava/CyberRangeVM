@@ -4,7 +4,8 @@ session_start();
 // Our "Database" of users
 $users = [
     'admin_boss' => ['pw' => 'SuperSecure123', 'role' => 'admin', 'msg' => 'Welcome back, Commander.'],
-    'intern_greg' => ['pw' => 'dont_fire_me', 'role' => 'low-level', 'msg' => 'Greg, did you finish that spreadsheet?']
+    'intern_greg' => ['pw' => 'dont_fire_me', 'role' => 'low-level', 'msg' => 'Greg, did you finish that spreadsheet?'],
+    'shadow_board' => ['pw' => 'OldGuard2026', 'role' => 'alumni', 'msg' => 'Welcome, Shadow. The tradition continues.']
 ];
 
 // Login Logic
@@ -38,6 +39,7 @@ if (isset($_GET['logout'])) {
         button { background: #238636; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
         .admin { border-top: 5px solid #4cd964; }
         .intern { border-top: 5px solid #f1c40f; }
+        .alumni { border-top: 5px solid #0088cc; }
     </style>
 </head>
 <body>
@@ -51,9 +53,9 @@ if (isset($_GET['logout'])) {
                 <button type="submit" name="login">AUTHENTICATE</button>
             </form>
         <?php else: ?>
-            <div class="<?php echo $_SESSION['role'] == 'admin' ? 'admin' : 'intern'; ?>">
+            <div class="<?php echo ($_SESSION['role'] == 'admin') ? 'admin' : (($_SESSION['role'] == 'alumni') ? 'alumni' : 'intern'); ?>">
                 <h1><?php echo $users[$_SESSION['user']]['msg']; ?></h1>
-                <p>Status: <b style="color:white"><?php echo strtoupper($_SESSION['role']); ?> ACCESS GANTED</b></p>
+                <p>Status: <b style="color:white"><?php echo strtoupper($_SESSION['role']); ?> ACCESS GRANTED</b></p>
                 <hr style="border-color:#30363d">
                 
                 <?php if ($_SESSION['role'] == 'admin'): ?>
@@ -61,6 +63,13 @@ if (isset($_GET['logout'])) {
                     <p>🚀 [ NUKE PROMPT ] - Ready</p>
                     <p>🛡️ [ HARDENING ] - 100% Complete</p>
                     <p><i>"The board is impressed. Mostly."</i></p>
+
+                <?php elseif ($_SESSION['role'] == 'alumni'): ?>
+                    <h3>Alumni Archive Access</h3>
+                    <p>📜 Records: [UNMODIFIED]</p>
+                    <p>🏛️ Status: Legacy Systems Maintained</p>
+                    <p><i>"We haven't touched the coffee machine since the incident in '18."</i></p>
+
                 <?php else: ?>
                     <h3>Intern View</h3>
                     <p>☕ Coffee Machine Status: EMPTY</p>
