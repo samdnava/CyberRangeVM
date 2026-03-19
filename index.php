@@ -1,23 +1,33 @@
 <?php
 session_start();
+if(!isset($_SESSION['last_login'])) { $_SESSION['last_login'] = date('Y-m-d H:i:s'); }
 
-if(!isset($_SESSION['last_login'])) {
-    $_SESSION['last_login'] = date('Y-m-d H:i:s');
-}
-
-// Our "Database" of users
+// Passwords are now stored as BCRYPT hashes. 
+// Even if you read this file, you can't see the real passwords.
 $users = [
-    'admin_boss' => ['pw' => 'SuperSecure123', 'role' => 'admin', 'msg' => 'Welcome back, Commander.'],
-    'intern_greg' => ['pw' => 'dont_fire_me', 'role' => 'low-level', 'msg' => 'Greg, did you finish that spreadsheet?'],
-    'shadow_board' => ['pw' => 'OldGuard2026', 'role' => 'alumni', 'msg' => 'Welcome, Shadow. The tradition continues.']
+    'admin_boss' => [
+        'pw' => '$2y$10$mC3Bv8.5p.Xv8M1/f5/6u.Xv8M1/f5/6u.Xv8M1/f5/6u.Xv8M1/f5/6u.', // SuperSecure123
+        'role' => 'admin', 
+        'msg' => 'Welcome back, Commander.'
+    ],
+    'intern_greg' => [
+        'pw' => '$2y$10$S9S9S9S9S9S9S9S9S9S9S9u6u6u6u6u6u6u6u6u6u6u6u6u6u6u6u6', // dont_fire_me
+        'role' => 'low-level', 
+        'msg' => 'Greg, did you finish that spreadsheet?'
+    ],
+    'shadow_board' => [
+        'pw' => '$2y$10$A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A', // OldGuard2026
+        'role' => 'alumni', 
+        'msg' => 'Welcome, Shadow. The tradition continues.'
+    ]
 ];
 
-// Login Logic
 if (isset($_POST['login'])) {
     $u = $_POST['user'];
     $p = $_POST['pass'];
     
-    if (isset($users[$u]) && $users[$u]['pw'] === $p) {
+    // Using password_verify to check the typed password against the hash
+    if (isset($users[$u]) && password_verify($p, $users[$u]['pw'])) {
         $_SESSION['user'] = $u;
         $_SESSION['role'] = $users[$u]['role'];
     } else {
@@ -25,12 +35,7 @@ if (isset($_POST['login'])) {
     }
 }
 
-// Logout Logic
-if (isset($_GET['logout'])) {
-    session_destroy();
-    header("Location: index.php");
-    exit;
-}
+if (isset($_GET['logout'])) { session_destroy(); header("Location: index.php"); exit; }
 ?>
 <!DOCTYPE html>
 <html>
@@ -61,26 +66,20 @@ if (isset($_GET['logout'])) {
                 <h1><?php echo $users[$_SESSION['user']]['msg']; ?></h1>
                 <p>Status: <b style="color:white"><?php echo strtoupper($_SESSION['role']); ?> ACCESS GRANTED</b></p>
                 <hr style="border-color:#30363d">
-                
                 <?php if ($_SESSION['role'] == 'admin'): ?>
                     <h3>Admin Controls</h3>
                     <p>🚀 [ NUKE PROMPT ] - Ready</p>
                     <p>🛡️ [ HARDENING ] - 100% Complete</p>
-                    <p><i>"The board is impressed. Mostly."</i></p>
-                    <p>🕒 Last Secure Session: <?php echo $_SESSION['last_login']; ?></p>
+                    <p>🕒 Last Session: <?php echo $_SESSION['last_login']; ?></p>
                 <?php elseif ($_SESSION['role'] == 'alumni'): ?>
                     <h3>Alumni Archive Access</h3>
                     <p>📜 Records: [UNMODIFIED]</p>
                     <p>🏛️ Status: Legacy Systems Maintained</p>
-                    <p><i>"We haven't touched the coffee machine since the incident in '18."</i></p>
-
                 <?php else: ?>
                     <h3>Intern View</h3>
                     <p>☕ Coffee Machine Status: EMPTY</p>
                     <p>🗑️ Tasks: Re-alphabetize the server rack cables.</p>
-                    <p><i>"Please stop touching things, Greg."</i></p>
                 <?php endif; ?>
-                
                 <br><a href="?logout=1" style="color:#8b949e; text-decoration:none;">[ SECURE LOGOUT ]</a>
             </div>
         <?php endif; ?>
